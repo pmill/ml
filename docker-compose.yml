@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  api-ml:
+    container_name: api-ml
+    build:
+      context: ./build
+      dockerfile: api-ml.dockerfile
+    volumes:
+      - ./:/app
+      - ./build/php.ini:/usr/local/etc/php/php.ini
+
+  api-nginx:
+    container_name: api-nginx
+    image: nginx:1.17.4-alpine
+    ports:
+      - "9998:80"
+    volumes:
+      - ./build/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - api-ml:fastcgi-app
+
+  api-mysql:
+    container_name: api-mysql
+    image: mysql:5.7
+    environment:
+      DATA_SAVE_PATH: /data
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mailerlite
+      MYSQL_USER: mailerlite
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+
+  api-redis:
+    container_name: api-redis
+    image: redis
+    ports:
+      - "6380:6379"
+    networks:
+      default:
+        aliases:
+          - "redis-dev"
