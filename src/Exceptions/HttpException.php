@@ -1,7 +1,6 @@
 <?php
 namespace App\Exceptions;
 
-use App\Http\Transformers\HttpExceptionTransformer;
 use App\Interfaces\PresentableInterface;
 use Exception;
 

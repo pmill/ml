@@ -2,11 +2,12 @@
 namespace App\ValidationRules;
 
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use Rakit\Validation\Rule;
 
 class EmailHostValidationRule extends Rule
 {
-    const CACHED_RESULT_TTL_SECONDS = 3600;
+    private const CACHED_RESULT_TTL_SECONDS = 3600;
 
     /**
      * @var CacheInterface
@@ -25,6 +26,8 @@ class EmailHostValidationRule extends Rule
 
     /**
      * @inheritDoc
+     *
+     * @throws InvalidArgumentException
      */
     public function check($value): bool
     {

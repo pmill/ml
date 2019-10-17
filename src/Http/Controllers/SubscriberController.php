@@ -18,7 +18,10 @@ use pmill\Doctrine\Hydrator\ArrayHydrator;
 
 class SubscriberController
 {
-    use DeleteEntityTrait, FetchEntityTrait, FetchAllEntitiesTrait, UpdateEntityTrait;
+    use DeleteEntityTrait;
+    use FetchEntityTrait;
+    use FetchAllEntitiesTrait;
+    use UpdateEntityTrait;
 
     /**
      * @var ArrayHydrator

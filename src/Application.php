@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use App\Entities\Field;
@@ -46,6 +47,8 @@ use Rakit\Validation\RuleQuashException;
 use Rakit\Validation\Validator;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Symfony\Component\HttpFoundation\Response;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run as WhoopsRun;
 
 use function DI\factory as diFactory;
 
@@ -58,11 +61,15 @@ class Application
 
     /**
      * Application constructor.
+     *
+     * @throws DependencyException
+     * @throws Exception
+     * @throws NotFoundException
      */
     public function __construct()
     {
-        $whoops = new \Whoops\Run;
-        $whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
+        $whoops = new WhoopsRun();
+        $whoops->prependHandler(new PrettyPageHandler());
         $whoops->register();
 
         $dotenv = Dotenv::create(__DIR__ . '/../');
@@ -74,15 +81,14 @@ class Application
     /**
      * Sets up dependencies for anything that can't be setup with autowiring
      *
-     * @throws DependencyException
-     * @throws NotFoundException
+     * @throws Exception
      */
     protected function setupDependencyInjection()
     {
         $containerBuilder = new ContainerBuilder();
 
         $containerBuilder->addDefinitions([
-            Request::class => function() {
+            Request::class => function () {
                 return Request::createFromGlobals();
             },
             RouteDispatcher::class => function (Container $serviceContainer) {
@@ -101,9 +107,6 @@ class Application
 
     /**
      * @param ContainerBuilder $containerBuilder
-     *
-     * @throws DependencyException
-     * @throws NotFoundException
      */
     protected function setupRepositoryDependencyInjection(ContainerBuilder $containerBuilder)
     {
@@ -227,6 +230,9 @@ class Application
      * 2. Runs the attached request validator (if present)
      * 3. Dispatch the route and get the result from the controller
      * 4. Pass the result to the presenter to send a response to the browser
+     *
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function run()
     {

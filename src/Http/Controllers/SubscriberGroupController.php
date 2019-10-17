@@ -15,7 +15,9 @@ use pmill\Doctrine\Hydrator\ArrayHydrator;
 
 class SubscriberGroupController
 {
-    use FetchEntityTrait, FetchAllEntitiesTrait, StoreEntityTrait;
+    use FetchEntityTrait;
+    use FetchAllEntitiesTrait;
+    use StoreEntityTrait;
 
     /**
      * @var ArrayHydrator

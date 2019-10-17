@@ -14,7 +14,8 @@ use pmill\Doctrine\Hydrator\ArrayHydrator;
 
 class SubscriberFieldController
 {
-    use FetchAllEntitiesTrait, UpdateEntityTrait;
+    use FetchAllEntitiesTrait;
+    use UpdateEntityTrait;
 
     /**
      * @var ArrayHydrator

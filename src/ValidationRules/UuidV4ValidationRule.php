@@ -5,7 +5,7 @@ use Rakit\Validation\Rule;
 
 class UuidV4ValidationRule extends Rule
 {
-    const UUID_VALIDATION_REGEX = '~^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$~i';
+    private const UUID_VALIDATION_REGEX = '~^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$~i';
 
     /**
      * @inheritDoc

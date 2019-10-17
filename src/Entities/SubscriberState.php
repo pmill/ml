@@ -9,12 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SubscriberState
 {
-    const ID_ACTIVE = 1;
-    const ID_UNSUBSCRIBED = 2;
-    const ID_JUNK = 3;
-    const ID_BOUNCED = 4;
-    const ID_UNCONFIRMED = 5;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -31,7 +25,7 @@ class SubscriberState
     protected $name;
 
     /**
-     * @return int
+     * @return string
      */
     public function getId(): string
     {

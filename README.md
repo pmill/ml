@@ -34,3 +34,18 @@ To run unit tests execute the following command:
 ```
 ./vendor/bin/phpunit
 ```
+
+## Requirements
+
+General Requirements
+
+> When creating a subscriber email must be in valid format and host domain must be active
+> No framework but you can use packages
+> HTTP JSON API
+> MySQL
+> Use of relationships
+> Validate request before calling the controller
+> Instructions how to run a project on local environment
+> PSR-12 compliant source code
+> Optional: Redis for caching
+> Optional: Write some tests

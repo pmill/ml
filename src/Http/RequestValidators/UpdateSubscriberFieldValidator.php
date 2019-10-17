@@ -30,6 +30,8 @@ class UpdateSubscriberFieldValidator extends AbstractValidator
 
     /**
      * @inheritDoc
+     *
+     * @throws EntityNotFoundException
      */
     protected function getValidationRules(array $requestParams): array
     {

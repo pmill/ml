@@ -7,6 +7,9 @@ use App\Routing\ArrayResponse;
 
 class CorsController
 {
+    /**
+     * @return ArrayResponse
+     */
     public function cors()
     {
         return new ArrayResponse([]);
