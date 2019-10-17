@@ -41,19 +41,19 @@ class RouterTest extends TestCase
     {
         $this->expectException(HttpMethodNotAllowedException::class);
 
-        $request = Request::create('http://localhost/v1/gifs/search', 'POST');
+        $request = Request::create('http://localhost/api/subscriber', 'PUT');
 
         $this->router->findRoute($request);
     }
 
     public function testRouteResolution()
     {
-        $request = Request::create('http://localhost/v1/gifs/search', 'GET');
+        $request = Request::create('http://localhost/api/subscriber', 'GET');
 
         $resolvedRoute = $this->router->findRoute($request);
         $resolvedRouteDefinition = $resolvedRoute->getRouteDefinition();
 
         $this->assertEquals(SubscriberController::class, $resolvedRouteDefinition->getControllerClass());
-        $this->assertEquals('search', $resolvedRouteDefinition->getControllerMethod());
+        $this->assertEquals('fetchAll', $resolvedRouteDefinition->getControllerMethod());
     }
 }

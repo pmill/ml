@@ -1,7 +1,8 @@
 <?php
 namespace Tests\Unit\Http\Presenters;
 
-use App\Entities\SubscriberField;
+use App\Entities\Field;
+use App\Entities\FieldType;
 use App\Http\Presenters\JsonPresenter;
 use Faker\Factory as FakerFactory;
 use PHPUnit\Framework\TestCase;
@@ -10,18 +11,28 @@ class JsonPresenterTest extends TestCase
 {
     public function testPresentItem()
     {
-        $gif = new SubscriberField('title', 'http://wwww.mygifs.com/image.gif');
+        $faker = FakerFactory::create();
+
+        $fieldType = new FieldType();
+        $fieldType->setId($faker->uuid);
+        $fieldType->setName($faker->word);
+        $fieldType->setInputType($faker->word);
+        $fieldType->setValidators($faker->word);
+
+        $field = new Field();
+        $field->setVariable($faker->word);
+        $field->setId($faker->uuid);
+        $field->setRequired($faker->boolean);
+        $field->setTitle($faker->words(4, true));
+        $field->setFieldType($fieldType);
 
         $expectedResult = [
-            'data' => [
-                'title' => $gif->getTitle(),
-                'url' => $gif->getUrl(),
-            ],
+            'data' => $field->present(),
         ];
 
         $presenter = new JsonPresenter();
 
-        $presenter->present($gif);
+        $presenter->present($field);
 
         $this->expectOutputString(json_encode($expectedResult));
     }
@@ -30,22 +41,32 @@ class JsonPresenterTest extends TestCase
     {
         $faker = FakerFactory::create();
 
-        $bananaGifs = [];
+        $fieldType = new FieldType();
+        $fieldType->setId($faker->uuid);
+        $fieldType->setName($faker->word);
+        $fieldType->setInputType($faker->word);
+        $fieldType->setValidators($faker->word);
+
+        $fields = [];
         for ($i = 0; $i < 10; $i++) {
-            $bananaGifs[] = new SubscriberField(
-                $faker->name,
-                $faker->imageUrl()
-            );
+            $field = new Field();
+            $field->setVariable($faker->word);
+            $field->setId($faker->uuid);
+            $field->setRequired($faker->boolean);
+            $field->setTitle($faker->words(4, true));
+            $field->setFieldType($fieldType);
+
+            $fields[] = $field;
         }
 
         $expectedResult = [
-            'data' => array_map(function (SubscriberField $gif) {
-                return $gif->present();
-            }, $bananaGifs),
+            'data' => array_map(function (Field $field) {
+                return $field->present();
+            }, $fields),
         ];
 
         $presenter = new JsonPresenter();
-        $presenter->present($bananaGifs);
+        $presenter->present($fields);
 
         $this->expectOutputString(json_encode($expectedResult));
     }

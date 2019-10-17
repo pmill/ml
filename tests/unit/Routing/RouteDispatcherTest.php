@@ -1,15 +1,18 @@
 <?php
 namespace Tests\Unit\Routing;
 
+use App\Builders\SubscriberBuilder;
 use App\Exceptions\DispatchingRouteException;
 use App\Http\Controllers\SubscriberController;
-use App\Interfaces\GifServiceInterface;
+use App\Repositories\SubscriberRepository;
 use App\Routing\ResolvedRoute;
 use App\Routing\RouteDefinition;
 use App\Routing\RouteDispatcher;
 use DI\Container;
+use Doctrine\ORM\EntityManagerInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use pmill\Doctrine\Hydrator\ArrayHydrator;
 use Symfony\Component\HttpFoundation\Request;
 
 class RouteDispatcherTest extends TestCase
@@ -37,10 +40,19 @@ class RouteDispatcherTest extends TestCase
     {
         $this->expectException(DispatchingRouteException::class);
 
-        $mockGifService = Mockery::mock(GifServiceInterface::class);
+        $mockArrayHydrator = Mockery::mock(ArrayHydrator::class);
+        $mockEntityManager = Mockery::mock(EntityManagerInterface::class);
+        $mockSubscriberBuilder = Mockery::mock(SubscriberBuilder::class);
+        $mockSubscriberRepository = Mockery::mock(SubscriberRepository::class);
+
+        $request = Request::create('http://localhost/api/subscriber', 'GET');
 
         $container = new Container();
-        $container->set(GifServiceInterface::class, $mockGifService);
+        $container->set(ArrayHydrator::class, $mockArrayHydrator);
+        $container->set(EntityManagerInterface::class, $mockEntityManager);
+        $container->set(Request::class, $request);
+        $container->set(SubscriberBuilder::class, $mockSubscriberBuilder);
+        $container->set(SubscriberRepository::class, $mockSubscriberRepository);
 
         $resolvedRoute = new ResolvedRoute(
             new RouteDefinition(
@@ -57,21 +69,28 @@ class RouteDispatcherTest extends TestCase
 
     public function testControllerCalled()
     {
-        $mockGifService = Mockery::mock(GifServiceInterface::class);
-        $mockGifService
-            ->shouldReceive('search')
+        $mockArrayHydrator = Mockery::mock(ArrayHydrator::class);
+        $mockEntityManager = Mockery::mock(EntityManagerInterface::class);
+        $mockSubscriberBuilder = Mockery::mock(SubscriberBuilder::class);
+
+        $mockSubscriberRepository = Mockery::mock(SubscriberRepository::class);
+        $mockSubscriberRepository
+            ->shouldReceive('findBy')
             ->andReturn([]);
 
-        $request = Request::create('http://localhost/v1/gif/search?q=bananas', 'GET');
+        $request = Request::create('http://localhost/api/subscriber', 'GET');
 
         $container = new Container();
-        $container->set(GifServiceInterface::class, $mockGifService);
+        $container->set(ArrayHydrator::class, $mockArrayHydrator);
+        $container->set(EntityManagerInterface::class, $mockEntityManager);
         $container->set(Request::class, $request);
+        $container->set(SubscriberBuilder::class, $mockSubscriberBuilder);
+        $container->set(SubscriberRepository::class, $mockSubscriberRepository);
 
         $resolvedRoute = new ResolvedRoute(
             new RouteDefinition(
                 SubscriberController::class,
-                'search',
+                'fetchAll',
                 true
             ),
             []
