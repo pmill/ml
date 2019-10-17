@@ -3,7 +3,6 @@ namespace App\Http\RequestValidators;
 
 use App\Entities\Field;
 use App\Repositories\FieldRepository;
-use App\Services\FieldRuleService;
 use Rakit\Validation\Validator;
 
 class CreateSubscriberValidator extends AbstractValidator
@@ -14,26 +13,18 @@ class CreateSubscriberValidator extends AbstractValidator
     protected $fieldRepository;
 
     /**
-     * @var FieldRuleService
-     */
-    protected $fieldRuleService;
-
-    /**
      * CreateSubscriberValidator constructor.
      *
      * @param Validator $validator
      * @param FieldRepository $fieldRepository
-     * @param FieldRuleService $fieldRuleService
      */
     public function __construct(
         Validator $validator,
-        FieldRepository $fieldRepository,
-        FieldRuleService $fieldRuleService
+        FieldRepository $fieldRepository
     ) {
         parent::__construct($validator);
 
         $this->fieldRepository = $fieldRepository;
-        $this->fieldRuleService = $fieldRuleService;
     }
 
     /**

@@ -4,16 +4,10 @@ namespace App\Http\RequestValidators;
 use App\Entities\SubscriberField;
 use App\Exceptions\EntityNotFoundException;
 use App\Repositories\SubscriberFieldRepository;
-use App\Services\FieldRuleService;
 use Rakit\Validation\Validator;
 
 class UpdateSubscriberFieldValidator extends AbstractValidator
 {
-    /**
-     * @var FieldRuleService
-     */
-    protected $fieldRuleService;
-
     /**
      * @var SubscriberFieldRepository
      */
@@ -23,17 +17,14 @@ class UpdateSubscriberFieldValidator extends AbstractValidator
      * CreateSubscriberValidator constructor.
      *
      * @param Validator $validator
-     * @param FieldRuleService $fieldRuleService
      * @param SubscriberFieldRepository $subscriberFieldRepository
      */
     public function __construct(
         Validator $validator,
-        FieldRuleService $fieldRuleService,
         SubscriberFieldRepository $subscriberFieldRepository
     ) {
         parent::__construct($validator);
 
-        $this->fieldRuleService = $fieldRuleService;
         $this->subscriberFieldRepository = $subscriberFieldRepository;
     }
 
