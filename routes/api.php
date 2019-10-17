@@ -32,7 +32,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber',
         new RouteDefinition(
             CorsController::class,
-            'cors',
+            'cors'
         )
     );
 
@@ -41,7 +41,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         new RouteDefinition(
             SubscriberController::class,
             'fetchAll',
-            FetchAllSubscribersValidator::class,
+            FetchAllSubscribersValidator::class
         )
     );
 
@@ -50,7 +50,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         new RouteDefinition(
             SubscriberController::class,
             'store',
-            CreateSubscriberValidator::class,
+            CreateSubscriberValidator::class
         )
     );
 
@@ -60,7 +60,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber/{id}',
         new RouteDefinition(
             CorsController::class,
-            'cors',
+            'cors'
         )
     );
 
@@ -68,7 +68,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber/{id}',
         new RouteDefinition(
             SubscriberController::class,
-            'fetch',
+            'fetch'
         )
     );
 
@@ -85,7 +85,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber/{id}',
         new RouteDefinition(
             SubscriberController::class,
-            'delete',
+            'delete'
         )
     );
 
@@ -95,7 +95,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         new RouteDefinition(
             SubscriberFieldController::class,
             'fetchAll',
-            FetchAllSubscriberFieldsValidator::class,
+            FetchAllSubscriberFieldsValidator::class
         )
     );
 
@@ -105,7 +105,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber-field/{id}',
         new RouteDefinition(
             CorsController::class,
-            'cors',
+            'cors'
         )
     );
 
@@ -114,7 +114,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         new RouteDefinition(
             SubscriberFieldController::class,
             'update',
-            UpdateSubscriberFieldValidator::class,
+            UpdateSubscriberFieldValidator::class
         )
     );
 
@@ -124,7 +124,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber-group',
         new RouteDefinition(
             CorsController::class,
-            'cors',
+            'cors'
         )
     );
 
@@ -141,7 +141,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         new RouteDefinition(
             SubscriberGroupController::class,
             'store',
-            CreateSubscriberGroupValidator::class,
+            CreateSubscriberGroupValidator::class
         )
     );
 
@@ -150,7 +150,7 @@ $routeCollector->addGroup('/api', function (RouteCollector $routeCollector) {
         '/subscriber-group/{id}',
         new RouteDefinition(
             SubscriberGroupController::class,
-            'fetch',
+            'fetch'
         )
     );
 });

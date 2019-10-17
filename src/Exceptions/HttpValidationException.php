@@ -19,7 +19,7 @@ class HttpValidationException extends HttpException
     {
         parent::__construct(
             Response::HTTP_UNPROCESSABLE_ENTITY,
-            'The given values are invalid for this request',
+            'The given values are invalid for this request'
         );
 
         $this->errorMessages = $errorMessages;
