@@ -1,51 +1,63 @@
-# ML Test
 
-## Usage
+# ML Test  
+  
+## Usage  
+  
+Start by copying `.env.example` to `.env`, if running this via docker you   
+shouldn't need make any changes.  
+  
+Run `composer install`.  
+  
+To bring up the docker containers run:  
+  
+```  
+docker-compose up -d --build  
+```  
+  
+Once the containers are up and running you can import the SQL into MySQL by running:  
+  
+```  
+docker exec -i api-mysql sh -c 'exec mysql -uroot -p"password"' < data.sql  
+```  
+  
+Finally run the following command to create the Doctrine ORM proxy classes:  
+  
+```  
+docker exec -it -w /app api-ml ./vendor/bin/doctrine orm:generate-proxies  
+```   
+Next checkout the https://github.com/pmill/ml-ui project to experience the UI.  
+  
+## Tests  
+  
+To run unit tests execute the following command:  
+  
+```  
+./vendor/bin/phpunit  
+```  
+  
+## General Requirements  
+  
+> When creating a subscriber email must be in valid format and host domain must be active 
 
-Start by copying `.env.example` to `.env`, if running this via docker you 
-shouldn't need make any changes.
+The validation rules for the create subscriber request can be found in the `CreateSubscriberValidator` validator class. The code to validate the host domain can be found in the `EmailHostValidationRule` validation rule class
 
-Run `composer install`.
+> No framework but you can use packages  
 
-To bring up the docker containers run:
+This project does not use a framework but pulls in some commonly used packages for routing, dependency injection, ORM, validation, and caching.
 
-```
-docker-compose up -d --build
-```
+> Use of relationships  
 
-Once the containers are up and running you can import the SQL into MySQL by running:
+The database tables for this project make use of relationships, these are modelled in the code.
 
-```
-docker exec -i api-mysql sh -c 'exec mysql -uroot -p"password"' < data.sql
-```
+> Validate request before calling the controller 
 
-Finally run the following command to create the Doctrine ORM proxy classes:
+The request validators are defined on the routes (in `routes/api.php`), the custom router takes care of validating the requests before instantiating and calling the controller. Another way to do this would've been to use implement a middleware system like Laravel and other frameworks use.
 
-```
-docker exec -it -w /app api-ml ./vendor/bin/doctrine orm:generate-proxies
-``` 
+> Optional: Redis for caching 
 
-Next checkout the https://github.com/pmill/ml-ui project to experience the UI.
+Redis is used to cache the DNS results in the `EmailHostValidationRule` validator rule class.
 
-## Tests
-
-To run unit tests execute the following command:
-
-```
-./vendor/bin/phpunit
-```
-
-## Requirements
-
-General Requirements
-
-> When creating a subscriber email must be in valid format and host domain must be active
-> No framework but you can use packages
-> HTTP JSON API
-> MySQL
-> Use of relationships
-> Validate request before calling the controller
-> Instructions how to run a project on local environment
-> PSR-12 compliant source code
-> Optional: Redis for caching
 > Optional: Write some tests
+
+I've added a sample of unit tests in the `tests/` folder, please do let me know if you'd like me to expand/add to these.
+ 

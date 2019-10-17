@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -62,9 +63,7 @@ class Application
     /**
      * Application constructor.
      *
-     * @throws DependencyException
      * @throws Exception
-     * @throws NotFoundException
      */
     public function __construct()
     {
